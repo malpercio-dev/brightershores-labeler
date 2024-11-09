@@ -22,12 +22,6 @@ RUN npm ci --include=dev
 # Copy application code
 COPY . .
 
-# Build application
-RUN npm run build
-
-# Remove development dependencies
-RUN npm prune --omit=dev
-
 
 # Final stage for app image
 FROM base
