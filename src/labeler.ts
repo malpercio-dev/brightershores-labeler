@@ -17,10 +17,6 @@ const server = new LabelerServer({
 server.start(PORT, (error, address) => {
   if (error) console.error(error);
   else console.log(`Labeler server listening on ${address}`);
-  server.app.listen({ host: "0.0.0.0", port: PORT }, (error, address) => {
-    if (error) console.error(error);
-    else console.log(`Labeler server listening on ${address}`);
-  });
 });
 
 export const labeler = (did: string, rkey: string) => {
