@@ -4,7 +4,14 @@ import fs from "node:fs";
 import { Jetstream } from "@skyware/jetstream";
 
 let intervalID: NodeJS.Timeout;
-const cursorFile = fs.readFileSync("cursor.txt", "utf8");
+let cursorFile;
+if (fs.existsSync("cursor.txt")) {
+  cursorFile = fs.readFileSync("cursor.txt", "utf8");
+  if (cursorFile) console.log(`Initiate jetstream at cursor ${cursorFile}`);
+} else {
+  fs.openSync("cursor.txt", "a");
+  cursorFile = fs.readFileSync("cursor.txt", "utf8");
+}
 if (cursorFile) console.log(`Initiate jetstream at cursor ${cursorFile}`);
 
 const jetstream = new Jetstream({
