@@ -9,7 +9,11 @@ import {
 } from "./constants.js";
 import { LabelerServer } from "@skyware/labeler";
 
-const server = new LabelerServer({ did: DID, signingKey: SIGNING_KEY });
+const server = new LabelerServer({
+  did: DID,
+  signingKey: SIGNING_KEY,
+  dbPath: "./data/labels.db",
+});
 server.start(PORT, (error, address) => {
   if (error) console.error(error);
   else console.log(`Labeler server listening on ${address}`);
