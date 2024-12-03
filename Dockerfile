@@ -1,5 +1,5 @@
 # Adjust NODE_VERSION as desired
-FROM node:22.5.1-slim as base
+FROM node:22.5.1-slim AS base
 
 # Node.js app lives here
 WORKDIR /app
@@ -9,7 +9,7 @@ ENV NODE_ENV="production"
 
 
 # Throw-away build stage to reduce size of final image
-FROM base as build
+FROM base AS build
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
