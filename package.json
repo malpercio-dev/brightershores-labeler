@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "@skyware/jetstream": "^0.2.0",
-        "@skyware/labeler": "^0.2.0",
+        "@skyware/labeler": "0.1.13",
         "dotenv": "^16.4.5",
         "tsx": "^4.19.2"
     }

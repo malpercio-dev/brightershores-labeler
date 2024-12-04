@@ -1,3 +1,4 @@
+import { ComAtprotoLabelDefs } from "@atcute/client/lexicons";
 import {
   DID,
   PORT,
@@ -41,26 +42,20 @@ server.app.get('/.well-known/did.json', (req, res) => {
       }
     ]
   })
-});
-console.log('starting labeler server')
-server.start({
-  port: PORT,
-  host: '0.0.0.0'
-}, (error, address) => {
+})
+server.start(PORT, (error, address) => {
   if (error) console.error(error);
   else console.log(`Labeler server listening on ${address}`);
 });
 
-export const labeler = async (did: string, rkey: string) => {
-  const query = await server.db
-    .execute({
-      sql: `SELECT * FROM labels WHERE uri = ?`,
-      args: [did],
-    });
+export const labeler = (did: string, rkey: string) => {
+  const query = server.db
+    .prepare<string[]>(`SELECT * FROM labels WHERE uri = ?`)
+    .all(did) as ComAtprotoLabelDefs.Label[];
 
-  const labels = query.rows.reduce((set, label) => {
-    if (!label.neg) set.add(label.val!.toString());
-    else set.delete(label.val!.toString());
+  const labels = query.reduce((set, label) => {
+    if (!label.neg) set.add(label.val);
+    else set.delete(label.val);
     return set;
   }, new Set<string>());
 
