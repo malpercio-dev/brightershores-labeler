@@ -3,15 +3,16 @@
     "version": "1.0.0",
     "type": "module",
     "scripts": {
-      "start": "npx tsx src/index.ts"
+        "start": "npx tsx src/index.ts"
     },
     "devDependencies": {
-      "@types/node": "^22.7.5",
-      "typescript": "^5.5.3"
+        "@types/node": "^22.7.5",
+        "typescript": "^5.5.3"
     },
     "dependencies": {
-      "@skyware/jetstream": "^0.2.0",
-      "@skyware/labeler": "^0.2.0",
-      "dotenv": "^16.4.5"
+        "@skyware/jetstream": "^0.2.0",
+        "@skyware/labeler": "^0.2.0",
+        "dotenv": "^16.4.5",
+        "tsx": "^4.19.2"
     }
-  }
+}
