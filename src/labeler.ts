@@ -1,4 +1,3 @@
-import { ComAtprotoLabelDefs } from "@atcute/client/lexicons";
 import {
   DID,
   PORT,
@@ -9,6 +8,7 @@ import {
 } from "./constants.js";
 import { LabelerServer } from "@skyware/labeler";
 
+console.log("creating labeler server")
 const server = new LabelerServer({
   did: DID,
   signingKey: SIGNING_KEY,
@@ -42,6 +42,7 @@ server.app.get('/.well-known/did.json', (req, res) => {
     ]
   })
 });
+console.log('starting labeler server')
 server.start({
   port: PORT,
   host: '0.0.0.0'
