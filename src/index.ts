@@ -1,9 +1,10 @@
-import { labeler } from "./labeler.js";
+import { createLabeler, labeler } from "./labeler.js";
 import { DID, JETSTREAM_URL } from "./constants.js";
 import fs from "node:fs";
 import { Jetstream } from "@skyware/jetstream";
 
 console.log('starting application')
+createLabeler();
 
 let intervalID: NodeJS.Timeout;
 let cursorFile;

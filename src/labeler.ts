@@ -9,45 +9,52 @@ import {
 } from "./constants.js";
 import { LabelerServer } from "@skyware/labeler";
 
-const server = new LabelerServer({
-  did: DID,
-  signingKey: SIGNING_KEY,
-  dbPath: "./data/labels.db",
-});
-// server.app.get('/.well-known/did.json', (req, res) => {
-//   res.send({
-//     "@context": [
-//       "https://www.w3.org/ns/did/v1",
-//       "https://w3id.org/security/multikey/v1",
-//       "https://w3id.org/security/suites/secp256k1-2019/v1"
-//     ],
-//     "id": "did:web:brightershores.malpercio.dev",
-//     "alsoKnownAs": [
-//       "at://brightershores.malpercio.dev"
-//     ],
-//     "verificationMethod": [
-//       {
-//         "id": "did:web:brightershores.malpercio.dev#atproto",
-//         "type": "Multikey",
-//         "controller": "did:web:brightershores.malpercio.dev",
-//         "publicKeyMultibase": "zDnaejUT7PJpdrFFt9ccGohj3L78TwzeGcku5cEpqtVCn4NRt"
-//       }
-//     ],
-//     "service": [
-//       {
-//         "id": "#atproto_pds",
-//         "type": "AtprotoPersonalDataServer",
-//         "serviceEndpoint": "https://pds.malpercio.dev"
-//       }
-//     ]
-//   })
-// })
-server.start(PORT, (error, address) => {
-  if (error) console.error(error);
-  else console.log(`Labeler server listening on ${address}`);
-});
+let server: LabelerServer;
+export function createLabeler() {
+  server = new LabelerServer({
+    did: DID,
+    signingKey: SIGNING_KEY,
+    dbPath: "./data/labels.db",
+  });
+  server.app.get('/.well-known/did.json', (req, res) => {
+    res.send({
+      "@context": [
+        "https://www.w3.org/ns/did/v1",
+        "https://w3id.org/security/multikey/v1",
+        "https://w3id.org/security/suites/secp256k1-2019/v1"
+      ],
+      "id": "did:web:brightershores.malpercio.dev",
+      "alsoKnownAs": [
+        "at://brightershores.malpercio.dev"
+      ],
+      "verificationMethod": [
+        {
+          "id": "did:web:brightershores.malpercio.dev#atproto",
+          "type": "Multikey",
+          "controller": "did:web:brightershores.malpercio.dev",
+          "publicKeyMultibase": "zDnaejUT7PJpdrFFt9ccGohj3L78TwzeGcku5cEpqtVCn4NRt"
+        }
+      ],
+      "service": [
+        {
+          "id": "#atproto_pds",
+          "type": "AtprotoPersonalDataServer",
+          "serviceEndpoint": "https://pds.malpercio.dev"
+        }
+      ]
+    })
+  })
+  server.start(PORT, (error, address) => {
+    if (error) console.error(error);
+    else console.log(`Labeler server listening on ${address}`);
+  });
+}
 
 export const labeler = (did: string, rkey: string) => {
+  if (!server) {
+    console.log('no server')
+    return;
+  }
   const query = server.db
     .prepare<string[]>(`SELECT * FROM labels WHERE uri = ?`)
     .all(did) as ComAtprotoLabelDefs.Label[];
